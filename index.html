@@ -81,24 +81,22 @@
 
     <script>
         function enviarMensagem() {
-            const numero = '5537999882259';
-            const mensagem = encodeURIComponent('ta bom, eu te perdoo'); // Codifica a mensagem
+            const numero = '37999882259';
+            const mensagem = encodeURIComponent('ta bom, eu te perdoo');
             const url = `https://wa.me/${numero}?text=${mensagem}`;
-            window.open(url, '_blank'); // Abre o WhatsApp em uma nova aba
+            window.open(url, '_blank');
         }
 
         function alterarTamanho() {
             const simButton = document.getElementById('sim');
             const naoButton = document.getElementById('nao');
 
-            // Aumenta a largura e altura do botão "Sim"
             let simWidth = simButton.offsetWidth + 10;
             let simHeight = simButton.offsetHeight + 5;
             simButton.style.width = simWidth + 'px';
             simButton.style.height = simHeight + 'px';
             simButton.style.fontSize = (24 + (simWidth - 120) / 10) + 'px';
 
-            // Diminui a largura e altura do botão "Não" de pouco em pouco
             let naoWidth = naoButton.offsetWidth - 5;
             let naoHeight = naoButton.offsetHeight - 2.5;
             if (naoWidth > 50 && naoHeight > 25) {
@@ -106,9 +104,9 @@
                 naoButton.style.height = naoHeight + 'px';
                 naoButton.style.fontSize = (24 - (120 - naoWidth) / 10) + 'px';
             } else {
-                naoButton.style.width = '50px'; // Limite mínimo de largura
-                naoButton.style.height = '25px'; // Limite mínimo de altura
-                naoButton.style.fontSize = '16px'; // Tamanho da fonte mínimo
+                naoButton.style.width = '50px';
+                naoButton.style.height = '25px';
+                naoButton.style.fontSize = '16px';
             }
 
             moverNao();
@@ -125,20 +123,17 @@
             let randomX, randomY;
             let overlap;
 
-            const simRect = simButton.getBoundingClientRect();
-            const simWidth = simRect.width;
-            const simHeight = simRect.height;
-
             do {
-                randomX = Math.random() * (maxX - 50);
-                randomY = Math.random() * (maxY - 50);
+                randomX = Math.random() * maxX;
+                randomY = Math.random() * maxY;
 
                 naoButton.style.left = randomX + 'px';
                 naoButton.style.top = randomY + 'px';
 
                 const naoRect = naoButton.getBoundingClientRect();
+                const simRect = simButton.getBoundingClientRect();
 
-                const minDistance = 50; // Distância mínima entre os botões
+                const minDistance = 20; // Distância mínima entre os botões
                 overlap = !(naoRect.right < simRect.left + minDistance ||
                             naoRect.left + minDistance > simRect.right ||
                             naoRect.bottom < simRect.top + minDistance ||
