@@ -121,7 +121,6 @@
             const maxY = container.offsetHeight - naoButton.offsetHeight;
 
             let randomX, randomY;
-            let overlap;
 
             do {
                 randomX = Math.random() * maxX;
@@ -134,11 +133,11 @@
                 const simRect = simButton.getBoundingClientRect();
 
                 const minDistance = 20; // Distância mínima entre os botões
-                overlap = !(naoRect.right < simRect.left + minDistance ||
-                            naoRect.left + minDistance > simRect.right ||
-                            naoRect.bottom < simRect.top + minDistance ||
-                            naoRect.top + minDistance > simRect.bottom);
-            } while (overlap);
+                const naoOverlapsSim = !(naoRect.right < simRect.left + minDistance ||
+                                          naoRect.left + minDistance > simRect.right ||
+                                          naoRect.bottom < simRect.top + minDistance ||
+                                          naoRect.top + minDistance > simRect.bottom);
+            } while (naoOverlapsSim); // Repete até que o "Não" não sobreponha o "Sim"
         }
 
         window.onload = function() {
