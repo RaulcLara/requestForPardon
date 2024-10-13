@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me perdoa?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            position: absolute;
+            transition: all 0.3s ease;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #sim {
+            background: linear-gradient(45deg, #4CAF50, #2E7D32);
+        }
+
+        #sim:hover {
+            background: linear-gradient(45deg, #45a049, #1b5e20);
+            transform: scale(1.05);
+        }
+
+        #nao {
+            background: linear-gradient(45deg, #f44336, #c62828);
+        }
+
+        #nao:hover {
+            background: linear-gradient(45deg, #e53935, #b71c1c);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Me perdoa?</h1>
+    <div id="container">
+        <button id="sim" onclick="enviarMensagem()">Sim</button>
+        <button id="nao" onclick="alterarTamanho()">Não</button>
+    </div>
+
+    <script>
+        function enviarMensagem() {
+            const numero = '5537999882259';
+            const mensagem = encodeURIComponent('ta bom, eu te perdoo'); // Codifica a mensagem
+            const url = `https://wa.me/${numero}?text=${mensagem}`;
+            window.open(url, '_blank'); // Abre o WhatsApp em uma nova aba
+        }
+
+        function alterarTamanho() {
+            const simButton = document.getElementById('sim');
+            const naoButton = document.getElementById('nao');
+
+            // Aumenta a largura e altura do botão "Sim"
+            let simWidth = simButton.offsetWidth + 10;
+            let simHeight = simButton.offsetHeight + 5;
+            simButton.style.width = simWidth + 'px';
+            simButton.style.height = simHeight + 'px';
+            simButton.style.fontSize = (24 + (simWidth - 120) / 10) + 'px';
+
+            // Diminui a largura e altura do botão "Não" de pouco em pouco
+            let naoWidth = naoButton.offsetWidth - 5;
+            let naoHeight = naoButton.offsetHeight - 2.5;
+            if (naoWidth > 50 && naoHeight > 25) {
+                naoButton.style.width = naoWidth + 'px';
+                naoButton.style.height = naoHeight + 'px';
+                naoButton.style.fontSize = (24 - (120 - naoWidth) / 10) + 'px';
+            } else {
+                naoButton.style.width = '50px'; // Limite mínimo de largura
+                naoButton.style.height = '25px'; // Limite mínimo de altura
+                naoButton.style.fontSize = '16px'; // Tamanho da fonte mínimo
+            }
+
+            moverNao();
+        }
+
+        function moverNao() {
+            const simButton = document.getElementById('sim');
+            const naoButton = document.getElementById('nao');
+
+            const container = document.getElementById('container');
+            const maxX = container.offsetWidth - naoButton.offsetWidth;
+            const maxY = container.offsetHeight - naoButton.offsetHeight;
+
+            let randomX, randomY;
+            let overlap;
+
+            const simRect = simButton.getBoundingClientRect();
+            const simWidth = simRect.width;
+            const simHeight = simRect.height;
+
+            do {
+                randomX = Math.random() * (maxX - 50);
+                randomY = Math.random() * (maxY - 50);
+
+                naoButton.style.left = randomX + 'px';
+                naoButton.style.top = randomY + 'px';
+
+                const naoRect = naoButton.getBoundingClientRect();
+
+                const minDistance = 50; // Distância mínima entre os botões
+                overlap = !(naoRect.right < simRect.left + minDistance ||
+                            naoRect.left + minDistance > simRect.right ||
+                            naoRect.bottom < simRect.top + minDistance ||
+                            naoRect.top + minDistance > simRect.bottom);
+            } while (overlap);
+        }
+
+        window.onload = function() {
+            moverNao();
+        };
+    </script>
+
+</body>
+</html>
